@@ -1,5 +1,9 @@
 package com.xavrs.repository
 
+import com.xavrs.model.HelloMessage
+
 class HelloRepository {
-    fun getHello(): String = "Ktor & Koin"
+
+    fun getHello(message: String, from: String) = HelloMessage(message, from)
+
 }
