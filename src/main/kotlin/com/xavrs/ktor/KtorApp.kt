@@ -1,8 +1,8 @@
 package com.xavrs.ktor
 
 import com.xavrs.di.myModule
-import com.xavrs.model.HelloMessage
-import com.xavrs.service.HelloService
+import com.xavrs.model.Message
+import com.xavrs.service.MessageService
 import io.ktor.application.Application
 import io.ktor.application.call
 import io.ktor.application.install
@@ -14,10 +14,7 @@ import io.ktor.gson.gson
 import io.ktor.http.HttpStatusCode
 import io.ktor.request.receive
 import io.ktor.response.respond
-import io.ktor.routing.get
-import io.ktor.routing.post
-import io.ktor.routing.route
-import io.ktor.routing.routing
+import io.ktor.routing.*
 import io.ktor.server.engine.commandLineEnvironment
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
@@ -35,18 +32,22 @@ fun Application.main() {
 }
 
 fun Application.routes(){
-    val service: HelloService by inject()
+    val service: MessageService by inject()
 
     routing {
         route("/message"){
             get {
                 log.info("GET Method")
-                call.respond(HttpStatusCode.OK,service.sayHello())
+                call.respond(HttpStatusCode.OK,service.getMessage())
             }
             post {
                 log.info("POST Method")
-                val message = call.receive(HelloMessage::class)
-                call.respond(HttpStatusCode.OK, service.sayHello(message.message, message.from))
+                val message = call.receive(Message::class)
+                call.respond(HttpStatusCode.OK, service.getMessage(message.message, message.from))
+            }
+            delete{
+                log.info("DELETE Method")
+                call.respond(HttpStatusCode.NoContent)
             }
         }
     }

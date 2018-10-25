@@ -1,8 +1,6 @@
 package com.xavrs.model
 
-abstract class Message
-
-data class HelloMessage(
+data class Message(
     val message: String,
     val from: String
-) : Message()
+)

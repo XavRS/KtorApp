@@ -1,11 +1,11 @@
 package com.xavrs.di
 
-import com.xavrs.repository.HelloRepository
-import com.xavrs.service.HelloService
-import com.xavrs.service.HelloServiceImpl
+import com.xavrs.repository.MessageRepository
+import com.xavrs.service.MessageService
+import com.xavrs.service.MessageServiceImpl
 import org.koin.dsl.module.module
 
 val myModule = module {
-    single { HelloServiceImpl(get()) as HelloService }
-    single { HelloRepository() }
+    single { MessageServiceImpl(get()) as MessageService }
+    single { MessageRepository() }
 }

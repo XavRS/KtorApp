@@ -1,7 +1,7 @@
 import com.google.gson.Gson
 import org.junit.Test
 import com.xavrs.ktor.routes
-import com.xavrs.model.HelloMessage
+import com.xavrs.model.Message
 import io.ktor.application.Application
 import io.ktor.application.install
 import io.ktor.features.ContentNegotiation
@@ -16,6 +16,7 @@ import io.ktor.server.testing.setBody
 import io.ktor.server.testing.withTestApplication
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
+import kotlin.test.assertNull
 
 
 class KtorAppRoutesTest : KtorAppBaseTest(){
@@ -31,7 +32,7 @@ class KtorAppRoutesTest : KtorAppBaseTest(){
         }){
             assertEquals(HttpStatusCode.OK, response.status())
             assertNotNull(response.content)
-            assertEquals("com.xavrs.model.HelloMessage", gson.fromJson(response.content!!, HelloMessage::class.java).javaClass.canonicalName)
+            assertEquals("com.xavrs.model.Message", gson.fromJson(response.content!!, Message::class.java).javaClass.canonicalName)
             val contentTypeText = assertNotNull(response.headers[HttpHeaders.ContentType])
             assertEquals(ContentType.Application.Json.withCharset(Charsets.UTF_8), ContentType.parse(contentTypeText))
         }
@@ -52,6 +53,14 @@ class KtorAppRoutesTest : KtorAppBaseTest(){
             assertEquals(listOf(getJson("json/hello.json")), response.content!!.lines())
             val contentTypeText = assertNotNull(response.headers[HttpHeaders.ContentType])
             assertEquals(ContentType.Application.Json.withCharset(Charsets.UTF_8), ContentType.parse(contentTypeText))
+        }
+    }
+
+    @Test
+    fun when_delete_message_then_retun_no_content() = withTestApplication(Application::routes) {
+        with(handleRequest(HttpMethod.Delete, "/message")) {
+            assertEquals(HttpStatusCode.NoContent, response.status())
+            assertNull(response.content)
         }
     }
 
