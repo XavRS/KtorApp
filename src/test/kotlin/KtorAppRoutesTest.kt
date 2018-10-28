@@ -36,7 +36,7 @@ class KtorAppRoutesTest : KtorAppBaseTest(){
             val contentTypeText = assertNotNull(response.headers[HttpHeaders.ContentType])
             assertEquals(ContentType.Application.Json.withCharset(Charsets.UTF_8), ContentType.parse(contentTypeText))
         }
-    }
+    }       
 
     @Test
     fun when_post_message_then_return_same_message() = withTestApplication(Application::routes) {
